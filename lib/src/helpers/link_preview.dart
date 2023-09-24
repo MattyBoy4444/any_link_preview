@@ -257,8 +257,8 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
   @override
   void initState() {
     originalLink = widget.link;
-    _errorImage = widget.errorImage ??
-        'https://github.com/sur950/any_link_preview/blob/master/lib/assets/giphy.gif?raw=true';
+    _errorImage =
+        widget.errorImage ?? 'https://github.com/sur950/any_link_preview/blob/master/lib/assets/giphy.gif?raw=true';
     _errorTitle = widget.errorTitle ?? 'Something went wrong!';
     _errorBody = widget.errorBody ??
         'Oops! Unable to parse the url. We have sent feedback to our developers & we will try to fix this in our next release. Thanks!';
@@ -322,16 +322,13 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
   }
 
   Widget _buildLinkContainer(double height, Metadata info) {
-    final image = LinkAnalyzer.isNotEmpty(info.image)
-        ? ((widget.proxyUrl ?? '') + (info.image ?? ''))
-        : null;
+    final image = LinkAnalyzer.isNotEmpty(info.image) ? ((widget.proxyUrl ?? '') + (info.image ?? '')) : null;
 
     if (widget.itemBuilder != null) {
       return widget.itemBuilder!(context, info, _buildImageProvider(image));
     }
 
-    final title =
-        LinkAnalyzer.isNotEmpty(info.title) ? info.title! : _errorTitle;
+    final title = LinkAnalyzer.isNotEmpty(info.title) ? info.title! : _errorTitle;
     final desc = LinkAnalyzer.isNotEmpty(info.desc) ? info.desc! : _errorBody;
     final imageProvider = _buildImageProvider(image ?? _errorImage);
 
@@ -339,10 +336,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
-        boxShadow: widget.removeElevation
-            ? []
-            : widget.boxShadow ??
-                [BoxShadow(blurRadius: 3, color: Colors.grey)],
+        boxShadow: widget.removeElevation ? [] : widget.boxShadow ?? [BoxShadow(blurRadius: 3, color: Colors.grey)],
       ),
       height: height,
       child: (widget.displayDirection == UIDirection.uiDirectionHorizontal)
@@ -382,7 +376,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
   ImageProvider? _buildImageProvider(String? image) {
     ImageProvider? imageProvider;
     try {
-      if (image != null) imageProvider = NetworkImage(image);
+      if (image != null) imageProvider = NetworkImage(image, headers: widget.headers);
       if (image != null && image.startsWith('data:image')) {
         imageProvider = MemoryImage(
           base64Decode(image.substring(image.indexOf('base64') + 7)),
@@ -399,8 +393,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
   Widget build(BuildContext context) {
     final info = _info as Metadata?;
     var height = widget.previewHeight ??
-        ((widget.displayDirection == UIDirection.uiDirectionHorizontal ||
-                !widget.showMultimedia)
+        ((widget.displayDirection == UIDirection.uiDirectionHorizontal || !widget.showMultimedia)
             ? ((MediaQuery.of(context).size.height) * 0.15)
             : ((MediaQuery.of(context).size.height) * 0.25));
 
@@ -422,13 +415,9 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
     );
 
     if (_loading) {
-      return (!_linkValid || !_proxyValid)
-          ? loadingErrorWidget
-          : (widget.placeholderWidget ?? loadingErrorWidget);
+      return (!_linkValid || !_proxyValid) ? loadingErrorWidget : (widget.placeholderWidget ?? loadingErrorWidget);
     }
 
-    return info == null
-        ? widget.errorWidget ?? _buildPlaceHolder(height)
-        : _buildLinkContainer(height, info);
+    return info == null ? widget.errorWidget ?? _buildPlaceHolder(height) : _buildLinkContainer(height, info);
   }
 }
