@@ -4,6 +4,7 @@ import 'dart:async' as async;
 import 'dart:convert';
 
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:any_link_preview/src/helpers/user_agent_client.dart';
 import 'package:flutter/foundation.dart';
 import 'package:html/dom.dart' show Document;
 import 'package:html/parser.dart';
@@ -98,7 +99,9 @@ class LinkAnalyzer {
 
     try {
       // Make our network call
-      final response = await http.get(
+      if (headers.containsKey('User-Agent')) userAgent = headers.get('User-Agent');
+      var client = userAgentClient(userAgent: userAgent);
+      final response = await client.get(
         Uri.parse(url),
         headers: {
           ...headers,
