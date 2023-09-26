@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:html/dom.dart' show Document;
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../parser/html_parser.dart';
@@ -98,6 +99,7 @@ class LinkAnalyzer {
     info?.desc = url;
     info?.url = url;
 
+    Client? client;
     try {
       // Make our network call
       if (headers.containsKey('User-Agent')) {
@@ -105,7 +107,7 @@ class LinkAnalyzer {
       } else if (headers.containsKey('user-agent')) {
         userAgent = headers.get('user-agent');
       }
-      var client = userAgentClient(userAgent: userAgent);
+      client = userAgentClient(userAgent: userAgent);
       final response = await client.get(
         Uri.parse(url),
         headers: {
@@ -139,6 +141,8 @@ class LinkAnalyzer {
       debugPrint('AnyLinkPreview - Error in $url response ($error)');
       // Any sort of exceptions due to wrong URL's, host lookup failure etc.
       return null;
+    } finally {
+      client?.close();
     }
   }
 
