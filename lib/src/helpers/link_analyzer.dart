@@ -68,7 +68,8 @@ class LinkAnalyzer {
         url,
         cache: cache,
         headers: headers,
-        userAgent: !headers.containsKey('User-Agent')
+        userAgent: !headers.containsKey('User-Agent') &&
+                !headers.containsKey('user-agent')
             ? 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
             : null,
       );
@@ -99,7 +100,11 @@ class LinkAnalyzer {
 
     try {
       // Make our network call
-      if (headers.containsKey('User-Agent')) userAgent = headers.get('User-Agent');
+      if (headers.containsKey('User-Agent')) {
+        userAgent = headers.get('User-Agent');
+      } else if (headers.containsKey('user-agent')) {
+        userAgent = headers.get('user-agent');
+      }
       var client = userAgentClient(userAgent: userAgent);
       final response = await client.get(
         Uri.parse(url),
