@@ -330,9 +330,6 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
         image = info.image;
       }
     }
-    // final image = LinkAnalyzer.isNotEmpty(info.image)
-    //     ? ((widget.proxyUrl ?? '') + (info.image ?? ''))
-    //     : null;
 
     if (widget.itemBuilder != null) {
       return widget.itemBuilder!(context, info, _buildImageProvider(image));
