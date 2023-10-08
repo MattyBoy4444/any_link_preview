@@ -324,7 +324,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
   Widget _buildLinkContainer(double height, Metadata info) {
     String? image;
     if (LinkAnalyzer.isNotEmpty(info.image)) {
-      if (widget.proxyUrl != null) {
+      if (LinkAnalyzer.isNotEmpty(widget.proxyUrl)) {
         image = widget.proxyUrl! + (info.image ?? '').replaceAll('&', '%26');
       } else {
         image = info.image;
