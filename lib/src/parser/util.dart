@@ -4,7 +4,7 @@ extension GetMethod on Map {
   String? get(dynamic key) {
     var value = this[key];
     if (value is List) return value.first;
-    return value.toString();
+    return value?.toString();
   }
 
   dynamic getDynamic(dynamic key) {
@@ -26,8 +26,7 @@ String? getProperty(
   var value_ = document
       ?.getElementsByTagName(tag)
       .cast<Element?>()
-      .firstWhere((element) => element?.attributes[attribute] == property,
-          orElse: () => null)
+      .firstWhere((element) => element?.attributes[attribute] == property, orElse: () => null)
       ?.attributes
       .get(key);
   // print(value_);
