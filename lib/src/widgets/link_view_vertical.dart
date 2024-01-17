@@ -5,7 +5,7 @@ class LinkViewVertical extends StatelessWidget {
   final String title;
   final String description;
   final ImageProvider? imageProvider;
-  final Function() onTap;
+  final Function()? onTap;
   final TextStyle? titleTextStyle;
   final TextStyle? bodyTextStyle;
   final bool? showMultiMedia;
@@ -66,7 +66,7 @@ class LinkViewVertical extends StatelessWidget {
           );
 
       return InkWell(
-          onTap: () => onTap(),
+          onTap: onTap,
           child: Column(
             children: <Widget>[
               showMultiMedia!
@@ -91,8 +91,7 @@ class LinkViewVertical extends StatelessWidget {
                             ),
                     )
                   : SizedBox(height: 5),
-              _buildTitleContainer(
-                  titleTS_, computeTitleLines(layoutHeight, layoutWidth)),
+              _buildTitleContainer(titleTS_, computeTitleLines(layoutHeight, layoutWidth)),
               _buildBodyContainer(bodyTS_, computeBodyLines(layoutHeight)),
             ],
           ));

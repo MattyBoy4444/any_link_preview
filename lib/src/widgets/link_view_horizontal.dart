@@ -5,7 +5,7 @@ class LinkViewHorizontal extends StatelessWidget {
   final String title;
   final String description;
   final ImageProvider? imageProvider;
-  final Function() onTap;
+  final Function()? onTap;
   final TextStyle? titleTextStyle;
   final TextStyle? bodyTextStyle;
   final bool? showMultiMedia;
@@ -71,7 +71,7 @@ class LinkViewHorizontal extends StatelessWidget {
             );
 
         return InkWell(
-          onTap: () => onTap(),
+          onTap: onTap,
           child: Row(
             children: <Widget>[
               showMultiMedia!
@@ -103,10 +103,8 @@ class LinkViewHorizontal extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _buildTitleContainer(
-                          titleFontSize_, computeTitleLines(layoutHeight)),
-                      _buildBodyContainer(
-                          bodyFontSize_, computeBodyLines(layoutHeight))
+                      _buildTitleContainer(titleFontSize_, computeTitleLines(layoutHeight)),
+                      _buildBodyContainer(bodyFontSize_, computeBodyLines(layoutHeight))
                     ],
                   ),
                 ),

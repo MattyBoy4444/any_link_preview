@@ -106,6 +106,9 @@ class AnyLinkPreview extends StatefulWidget {
   /// allows to build a custom [Widget] from the [Metadata] and [ImageProvider] fetched
   final Widget Function(BuildContext, Metadata, ImageProvider?)? itemBuilder;
 
+  /// If set to true, onTap will not be called on the card
+  final bool noDefaultOnTap;
+
   AnyLinkPreview({
     Key? key,
     required this.link,
@@ -130,6 +133,7 @@ class AnyLinkPreview extends StatefulWidget {
     this.onTap,
     this.previewHeight,
     this.urlLaunchMode = LaunchMode.platformDefault,
+    this.noDefaultOnTap = false,
   })  : itemBuilder = null,
         super(key: key);
 
@@ -158,6 +162,7 @@ class AnyLinkPreview extends StatefulWidget {
         onTap = null,
         previewHeight = null,
         urlLaunchMode = LaunchMode.platformDefault,
+        noDefaultOnTap = false,
         super(key: key);
 
   @override
@@ -353,7 +358,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
               title: title,
               description: desc,
               imageProvider: imageProvider,
-              onTap: widget.onTap ?? () => _launchURL(originalLink),
+              onTap: widget.noDefaultOnTap ? null : (widget.onTap ?? () => _launchURL(originalLink)),
               titleTextStyle: widget.titleStyle,
               bodyTextStyle: widget.bodyStyle,
               bodyTextOverflow: widget.bodyTextOverflow,
@@ -368,7 +373,7 @@ class AnyLinkPreviewState extends State<AnyLinkPreview> {
               title: title,
               description: desc,
               imageProvider: imageProvider,
-              onTap: widget.onTap ?? () => _launchURL(originalLink),
+              onTap: widget.noDefaultOnTap ? null : (widget.onTap ?? () => _launchURL(originalLink)),
               titleTextStyle: widget.titleStyle,
               bodyTextStyle: widget.bodyStyle,
               bodyTextOverflow: widget.bodyTextOverflow,
